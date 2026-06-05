@@ -19,7 +19,7 @@ export default function Hero({ lang }: Props) {
   const cta = ctaMap[lang] || ctaMap.fr;
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ minHeight: '420px' }}>
+    <section className="relative w-full overflow-hidden" style={{ minHeight: '480px' }}>
       {/* Background image */}
       <div className="absolute inset-0">
         <Image
@@ -27,14 +27,17 @@ export default function Hero({ lang }: Props) {
           alt="KEBAPPA hero"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-right md:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060709] via-[#060709]/70 to-transparent" />
+        {/* Mobile: full dark overlay so image text doesn't compete */}
+        <div className="absolute inset-0 bg-[#060709]/80 md:hidden" />
+        {/* Desktop: directional gradient */}
+        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-[#060709] via-[#060709]/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#060709] via-transparent to-transparent" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-24 flex flex-col justify-center" style={{ minHeight: '420px' }}>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 md:py-28 flex flex-col justify-center" style={{ minHeight: '480px' }}>
         <div className="max-w-xl">
           <div className="inline-block bg-[#EC6603] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4">
             Schaerbeek · Bruxelles
@@ -45,7 +48,7 @@ export default function Hero({ lang }: Props) {
           <p className="text-[#EC6603] text-sm font-bold uppercase tracking-[0.3em] mb-4">
             REAL GERMAN KEBABS
           </p>
-          <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+          <p className="text-gray-300 text-base md:text-lg mb-8 leading-relaxed">
             {slogan}
           </p>
           <div className="flex flex-wrap gap-3">

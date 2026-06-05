@@ -3,14 +3,14 @@ type Lang = 'fr' | 'nl' | 'en';
 export type OptionItem = {
   id: string;
   name: Record<Lang, string>;
-  priceCents: number; // 0 = free
+  priceCents: number;
 };
 
 export type OptionGroup = {
   id: string;
   title: Record<Lang, string>;
   required: boolean;
-  multiple: boolean; // true = checkbox, false = radio
+  multiple: boolean;
   max?: number;
   items: OptionItem[];
 };
@@ -72,175 +72,49 @@ export const categories: Category[] = [
     id: 'durums',
     title: { fr: 'Dürüms', nl: 'Dürüms', en: 'Dürüms' },
     items: [
-      {
-        id: 'durum-boeuf',
-        name: { fr: 'Dürüm Bœuf', nl: 'Dürüm Rund', en: 'Beef Dürüm' },
-        priceCents: 1150,
-        category: 'durums',
-        image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'durum-poulet',
-        name: { fr: 'Dürüm Poulet', nl: 'Dürüm Kip', en: 'Chicken Dürüm' },
-        priceCents: 1050,
-        category: 'durums',
-        image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'durum-mix',
-        name: { fr: 'Dürüm Mix', nl: 'Dürüm Mix', en: 'Mixed Dürüm' },
-        priceCents: 1250,
-        category: 'durums',
-        image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'durum-falafel',
-        name: { fr: 'Dürüm Falafel', nl: 'Dürüm Falafel', en: 'Falafel Dürüm' },
-        priceCents: 950,
-        category: 'durums',
-        image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
+      { id: 'durum-boeuf', name: { fr: 'Dürüm Bœuf', nl: 'Dürüm Rund', en: 'Beef Dürüm' }, priceCents: 1150, category: 'durums', image: '/products/durum-boeuf.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'durum-poulet', name: { fr: 'Dürüm Poulet', nl: 'Dürüm Kip', en: 'Chicken Dürüm' }, priceCents: 1050, category: 'durums', image: '/products/durum-poulet.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'durum-mix', name: { fr: 'Dürüm Mix', nl: 'Dürüm Mix', en: 'Mixed Dürüm' }, priceCents: 1250, category: 'durums', image: '/products/durum-mix.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'durum-falafel', name: { fr: 'Dürüm Falafel', nl: 'Dürüm Falafel', en: 'Falafel Dürüm' }, priceCents: 950, category: 'durums', image: '/products/durum-falafel.jpeg', options: SANDWICH_OPTIONS },
     ],
   },
   {
     id: 'sandwiches',
     title: { fr: 'Sandwichs', nl: 'Broodjes', en: 'Sandwiches' },
     items: [
-      {
-        id: 'sandwich-boeuf',
-        name: { fr: 'Sandwich Bœuf', nl: 'Broodje Rund', en: 'Beef Sandwich' },
-        priceCents: 1150,
-        category: 'sandwiches',
-        image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'sandwich-poulet',
-        name: { fr: 'Sandwich Poulet', nl: 'Broodje Kip', en: 'Chicken Sandwich' },
-        priceCents: 1050,
-        category: 'sandwiches',
-        image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'sandwich-mix',
-        name: { fr: 'Sandwich Mix', nl: 'Broodje Mix', en: 'Mixed Sandwich' },
-        priceCents: 1250,
-        category: 'sandwiches',
-        image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'sandwich-falafel',
-        name: { fr: 'Sandwich Falafel', nl: 'Broodje Falafel', en: 'Falafel Sandwich' },
-        priceCents: 950,
-        category: 'sandwiches',
-        image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
+      { id: 'sandwich-boeuf', name: { fr: 'Sandwich Bœuf', nl: 'Broodje Rund', en: 'Beef Sandwich' }, priceCents: 1150, category: 'sandwiches', image: '/products/sandwich-boeuf.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'sandwich-poulet', name: { fr: 'Sandwich Poulet', nl: 'Broodje Kip', en: 'Chicken Sandwich' }, priceCents: 1050, category: 'sandwiches', image: '/products/sandwich-poulet.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'sandwich-mix', name: { fr: 'Sandwich Mix', nl: 'Broodje Mix', en: 'Mixed Sandwich' }, priceCents: 1250, category: 'sandwiches', image: '/products/sandwich-mix.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'sandwich-falafel', name: { fr: 'Sandwich Falafel', nl: 'Broodje Falafel', en: 'Falafel Sandwich' }, priceCents: 950, category: 'sandwiches', image: '/products/sandwich-falafel.jpeg', options: SANDWICH_OPTIONS },
     ],
   },
   {
     id: 'bowls',
     title: { fr: 'Bowls', nl: 'Bowls', en: 'Bowls' },
     items: [
-      {
-        id: 'bowl-boeuf',
-        name: { fr: 'Bowl Bœuf', nl: 'Bowl Rund', en: 'Beef Bowl' },
-        priceCents: 1550,
-        category: 'bowls',
-        image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'bowl-poulet',
-        name: { fr: 'Bowl Poulet', nl: 'Bowl Kip', en: 'Chicken Bowl' },
-        priceCents: 1450,
-        category: 'bowls',
-        image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'bowl-mix',
-        name: { fr: 'Bowl Mix', nl: 'Bowl Mix', en: 'Mixed Bowl' },
-        priceCents: 1650,
-        category: 'bowls',
-        image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
-      {
-        id: 'bowl-falafel',
-        name: { fr: 'Bowl Falafel', nl: 'Bowl Falafel', en: 'Falafel Bowl' },
-        priceCents: 1250,
-        category: 'bowls',
-        image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&q=80',
-        options: SANDWICH_OPTIONS,
-      },
+      { id: 'bowl-boeuf', name: { fr: 'Bowl Bœuf', nl: 'Bowl Rund', en: 'Beef Bowl' }, priceCents: 1550, category: 'bowls', image: '/products/bowl-boeuf.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'bowl-poulet', name: { fr: 'Bowl Poulet', nl: 'Bowl Kip', en: 'Chicken Bowl' }, priceCents: 1450, category: 'bowls', image: '/products/bowl-poulet.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'bowl-mix', name: { fr: 'Bowl Mix', nl: 'Bowl Mix', en: 'Mixed Bowl' }, priceCents: 1650, category: 'bowls', image: '/products/bowl-mix.jpeg', options: SANDWICH_OPTIONS },
+      { id: 'bowl-falafel', name: { fr: 'Bowl Falafel', nl: 'Bowl Falafel', en: 'Falafel Bowl' }, priceCents: 1250, category: 'bowls', image: '/products/bowl-falafel.jpeg', options: SANDWICH_OPTIONS },
     ],
   },
   {
     id: 'sides',
     title: { fr: 'Accompagnements', nl: 'Bijgerechten', en: 'Sides' },
     items: [
-      {
-        id: 'chilli-cheese',
-        name: { fr: 'Chilli Cheese (5 pcs)', nl: 'Chilli Cheese (5 st)', en: 'Chilli Cheese (5 pcs)' },
-        priceCents: 590,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400&q=80',
-      },
-      {
-        id: 'onion-rings',
-        name: { fr: 'Onion Rings (5 pcs)', nl: 'Uienringen (5 st)', en: 'Onion Rings (5 pcs)' },
-        priceCents: 590,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1639024471283-03518883512d?w=400&q=80',
-      },
-      {
-        id: 'mozzarella-stick',
-        name: { fr: 'Mozzarella Sticks (5 pcs)', nl: 'Mozzarella Sticks (5 st)', en: 'Mozzarella Sticks (5 pcs)' },
-        priceCents: 590,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1548340748-6d2b7d7da280?w=400&q=80',
-      },
-      {
-        id: 'falafel',
-        name: { fr: 'Falafel (4 pcs)', nl: 'Falafel (4 st)', en: 'Falafel (4 pcs)' },
-        priceCents: 490,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1593001874117-c99d7fb8e5a3?w=400&q=80',
-      },
-      {
-        id: 'wings',
-        name: { fr: 'Wings (4 pcs)', nl: 'Wings (4 st)', en: 'Wings (4 pcs)' },
-        priceCents: 590,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80',
-      },
-      {
-        id: 'nuggets-xl',
-        name: { fr: 'Nuggets XL (3 pcs)', nl: 'Nuggets XL (3 st)', en: 'Nuggets XL (3 pcs)' },
-        priceCents: 490,
-        category: 'sides',
-        image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=80',
-      },
+      { id: 'chilli-cheese', name: { fr: 'Chilli Cheese (5 pcs)', nl: 'Chilli Cheese (5 st)', en: 'Chilli Cheese (5 pcs)' }, priceCents: 590, category: 'sides', image: '/products/chilli-cheese.jpeg' },
+      { id: 'onion-rings', name: { fr: 'Onion Rings (5 pcs)', nl: 'Uienringen (5 st)', en: 'Onion Rings (5 pcs)' }, priceCents: 590, category: 'sides', image: '/products/onion-rings.jpeg' },
+      { id: 'mozzarella-stick', name: { fr: 'Mozzarella Sticks (5 pcs)', nl: 'Mozzarella Sticks (5 st)', en: 'Mozzarella Sticks (5 pcs)' }, priceCents: 590, category: 'sides', image: '/products/mozzarella-stick.jpeg' },
+      { id: 'falafel', name: { fr: 'Falafel (4 pcs)', nl: 'Falafel (4 st)', en: 'Falafel (4 pcs)' }, priceCents: 490, category: 'sides', image: '/products/falafel.jpeg' },
+      { id: 'wings', name: { fr: 'Wings (4 pcs)', nl: 'Wings (4 st)', en: 'Wings (4 pcs)' }, priceCents: 590, category: 'sides', image: '/products/wings.jpeg' },
+      { id: 'nuggets-xl', name: { fr: 'Nuggets XL (3 pcs)', nl: 'Nuggets XL (3 st)', en: 'Nuggets XL (3 pcs)' }, priceCents: 490, category: 'sides', image: '/products/nuggets-xl.jpeg' },
     ],
   },
   {
     id: 'fries',
     title: { fr: 'Frites', nl: 'Frieten', en: 'Fries' },
     items: [
-      {
-        id: 'frites',
-        name: { fr: 'Frites fraîches', nl: 'Verse frieten', en: 'Fresh Fries' },
-        priceCents: 450,
-        category: 'fries',
-        image: 'https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&q=80',
-      },
+      { id: 'frites', name: { fr: 'Frites fraîches', nl: 'Verse frieten', en: 'Fresh Fries' }, priceCents: 450, category: 'fries', image: '/products/frites.jpeg' },
     ],
   },
   {
@@ -253,7 +127,7 @@ export const categories: Category[] = [
         priceCents: 1500,
         category: 'menus',
         description: { fr: '2 burgers + frites + boisson', nl: '2 burgers + frieten + drank', en: '2 burgers + fries + drink' },
-        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',
+        image: '/products/menu-2-burgers.jpeg',
       },
     ],
   },
@@ -261,13 +135,7 @@ export const categories: Category[] = [
     id: 'drinks',
     title: { fr: 'Boissons', nl: 'Dranken', en: 'Drinks' },
     items: [
-      {
-        id: 'ayran',
-        name: { fr: 'Ayran', nl: 'Ayran', en: 'Ayran' },
-        priceCents: 350,
-        category: 'drinks',
-        image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&q=80',
-      },
+      { id: 'ayran', name: { fr: 'Ayran', nl: 'Ayran', en: 'Ayran' }, priceCents: 350, category: 'drinks', image: '/products/ayran.jpeg' },
     ],
   },
 ];
