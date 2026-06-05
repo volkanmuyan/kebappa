@@ -56,8 +56,8 @@ export default function ProductModal({ item, lang, onClose }: Props) {
   return (
     <>
       <div className="fixed inset-0 bg-black/70 z-50" onClick={onClose} />
-      <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4">
-        <div className="bg-[#141517] w-full max-w-lg rounded-t-2xl md:rounded-2xl max-h-[90vh] flex flex-col overflow-hidden border border-[#26282b]">
+      <div className="fixed inset-0 z-[51] flex items-end md:items-center justify-center p-0 md:p-4 pointer-events-none">
+        <div className="bg-[#141517] w-full max-w-lg rounded-t-2xl md:rounded-2xl max-h-[90vh] flex flex-col overflow-hidden border border-[#26282b] pointer-events-auto">
           {/* Image */}
           {item.image && (
             <div className="relative h-48 w-full flex-shrink-0">
