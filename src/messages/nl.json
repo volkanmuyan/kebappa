@@ -1,0 +1,23 @@
+{
+  "addToCart": "Toevoegen",
+  "cart": "Winkelwagen",
+  "emptyCart": "Uw winkelwagen is leeg",
+  "checkout": "Bestellen",
+  "delivery": "Levering",
+  "pickup": "Afhalen",
+  "deliveryAddress": "Leveringsadres",
+  "street": "Straat",
+  "number": "Nummer",
+  "zip": "Postcode",
+  "city": "Stad",
+  "subtotal": "Subtotaal",
+  "deliveryFee": "Leveringskosten",
+  "total": "Totaal",
+  "minOrderWarning": "Minimumbestelling: €10",
+  "placeOrder": "Bestelling plaatsen",
+  "orderSuccess": "Bestelling bevestigd! Dank u.",
+  "orderCancelled": "Bestelling geannuleerd.",
+  "backToMenu": "Terug naar menu",
+  "selectLanguage": "Taal",
+  "slogan": "REAL GERMAN KEBABS"
+}

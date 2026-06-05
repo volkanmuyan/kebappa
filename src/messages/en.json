@@ -1,0 +1,23 @@
+{
+  "addToCart": "Add to cart",
+  "cart": "Cart",
+  "emptyCart": "Your cart is empty",
+  "checkout": "Checkout",
+  "delivery": "Delivery",
+  "pickup": "Pick up",
+  "deliveryAddress": "Delivery address",
+  "street": "Street",
+  "number": "Number",
+  "zip": "Postal code",
+  "city": "City",
+  "subtotal": "Subtotal",
+  "deliveryFee": "Delivery fee",
+  "total": "Total",
+  "minOrderWarning": "Minimum order: €10",
+  "placeOrder": "Place order",
+  "orderSuccess": "Order confirmed! Thank you.",
+  "orderCancelled": "Order cancelled.",
+  "backToMenu": "Back to menu",
+  "selectLanguage": "Language",
+  "slogan": "REAL GERMAN KEBABS"
+}

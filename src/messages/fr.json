@@ -1,0 +1,23 @@
+{
+  "addToCart": "Ajouter au panier",
+  "cart": "Panier",
+  "emptyCart": "Votre panier est vide",
+  "checkout": "Commander",
+  "delivery": "Livraison",
+  "pickup": "À emporter",
+  "deliveryAddress": "Adresse de livraison",
+  "street": "Rue",
+  "number": "Numéro",
+  "zip": "Code postal",
+  "city": "Ville",
+  "subtotal": "Sous-total",
+  "deliveryFee": "Frais de livraison",
+  "total": "Total",
+  "minOrderWarning": "Commande minimum : 10 €",
+  "placeOrder": "Passer la commande",
+  "orderSuccess": "Commande confirmée ! Merci.",
+  "orderCancelled": "Commande annulée.",
+  "backToMenu": "Retour au menu",
+  "selectLanguage": "Langue",
+  "slogan": "REAL GERMAN KEBABS"
+}
