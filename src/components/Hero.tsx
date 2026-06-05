@@ -23,13 +23,13 @@ export default function Hero({ lang }: Props) {
       {/* Background image */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=1400&q=85"
+          src="/hero.jpeg"
           alt="KEBAPPA hero"
           fill
           priority
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060709] via-[#060709]/80 to-[#060709]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#060709] via-[#060709]/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#060709] via-transparent to-transparent" />
       </div>
 
