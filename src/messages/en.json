@@ -19,5 +19,9 @@
   "orderCancelled": "Order cancelled.",
   "backToMenu": "Back to menu",
   "selectLanguage": "Language",
-  "slogan": "REAL GERMAN KEBABS"
+  "slogan": "REAL GERMAN KEBABS",
+  "customizable": "Customizable",
+  "optional": "Optional",
+  "free": "Free",
+  "cancel": "Cancel"
 }

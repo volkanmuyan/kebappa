@@ -15,7 +15,7 @@ export default async function LangLayout({
     <NextIntlClientProvider locale={lang} messages={messages}>
       <div className="min-h-screen bg-[#060709] text-[#f5f5f5]">
         <Header lang={lang} />
-        <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
+        <main>{children}</main>
       </div>
     </NextIntlClientProvider>
   );

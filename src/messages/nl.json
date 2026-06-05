@@ -19,5 +19,9 @@
   "orderCancelled": "Bestelling geannuleerd.",
   "backToMenu": "Terug naar menu",
   "selectLanguage": "Taal",
-  "slogan": "REAL GERMAN KEBABS"
+  "slogan": "REAL GERMAN KEBABS",
+  "customizable": "Aanpasbaar",
+  "optional": "Optioneel",
+  "free": "Gratis",
+  "cancel": "Annuleren"
 }

@@ -1,7 +1,14 @@
 'use client';
 import { create } from 'zustand';
 
-type CartItem = { id: string; qty: number };
+export type SelectedOption = { groupId: string; optionId: string };
+
+type CartItem = {
+  id: string;
+  qty: number;
+  selectedOptions?: SelectedOption[];
+  extraCents?: number; // sum of paid options
+};
 type OrderMode = 'delivery' | 'pickup';
 type Address = { street: string; number: string; zip: string; city: string };
 
@@ -12,10 +19,10 @@ interface CartStore {
   isOpen: boolean;
   setMode: (m: OrderMode) => void;
   setAddress: (a: Partial<Address>) => void;
-  add: (id: string) => void;
-  remove: (id: string) => void;
-  increment: (id: string) => void;
-  decrement: (id: string) => void;
+  add: (id: string, selectedOptions?: SelectedOption[], extraCents?: number) => void;
+  remove: (id: string, index?: number) => void;
+  increment: (id: string, index?: number) => void;
+  decrement: (id: string, index?: number) => void;
   clear: () => void;
   openCart: () => void;
   closeCart: () => void;
@@ -28,19 +35,40 @@ export const useCart = create<CartStore>((set) => ({
   isOpen: false,
   setMode: (mode) => set({ mode }),
   setAddress: (a) => set((s) => ({ address: { ...s.address, ...a } })),
-  add: (id) =>
+  add: (id, selectedOptions, extraCents) =>
     set((s) => {
-      const existing = s.items.find((i) => i.id === id);
-      if (existing) return { items: s.items.map((i) => (i.id === id ? { ...i, qty: i.qty + 1 } : i)) };
-      return { items: [...s.items, { id, qty: 1 }] };
+      // Always add as a new entry when options are present; merge plain adds
+      if (!selectedOptions || selectedOptions.length === 0) {
+        const existing = s.items.find((i) => i.id === id && (!i.selectedOptions || i.selectedOptions.length === 0));
+        if (existing) {
+          return {
+            items: s.items.map((i) =>
+              i === existing ? { ...i, qty: i.qty + 1 } : i
+            ),
+          };
+        }
+      }
+      return { items: [...s.items, { id, qty: 1, selectedOptions, extraCents }] };
     }),
-  remove: (id) => set((s) => ({ items: s.items.filter((i) => i.id !== id) })),
-  increment: (id) =>
-    set((s) => ({ items: s.items.map((i) => (i.id === id ? { ...i, qty: i.qty + 1 } : i)) })),
-  decrement: (id) =>
+  remove: (id, index) =>
+    set((s) => {
+      if (index !== undefined) {
+        return { items: s.items.filter((_, i) => i !== index) };
+      }
+      return { items: s.items.filter((i) => i.id !== id) };
+    }),
+  increment: (id, index) =>
+    set((s) => ({
+      items: s.items.map((i, idx) =>
+        (index !== undefined ? idx === index : i.id === id) ? { ...i, qty: i.qty + 1 } : i
+      ),
+    })),
+  decrement: (id, index) =>
     set((s) => ({
       items: s.items
-        .map((i) => (i.id === id ? { ...i, qty: i.qty - 1 } : i))
+        .map((i, idx) =>
+          (index !== undefined ? idx === index : i.id === id) ? { ...i, qty: i.qty - 1 } : i
+        )
         .filter((i) => i.qty > 0),
     })),
   clear: () => set({ items: [] }),

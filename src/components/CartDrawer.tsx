@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations } from 'next-intl';
 import { useCart } from '@/store/cart';
-import { allItems } from '@/data/menu';
+import { allItems, categories } from '@/data/menu';
 import { useState } from 'react';
 
 const DELIVERY_FEE = 250;
@@ -19,13 +19,23 @@ export default function CartDrawer({ lang }: { lang: string }) {
 
   const subtotal = items.reduce((sum, ci) => {
     const item = allItems.find((i) => i.id === ci.id);
-    return sum + (item?.priceCents ?? 0) * ci.qty;
+    return sum + ((item?.priceCents ?? 0) + (ci.extraCents ?? 0)) * ci.qty;
   }, 0);
 
   const total = subtotal + (mode === 'delivery' ? DELIVERY_FEE : 0);
   const belowMin = subtotal < MIN_ORDER;
 
   const formatPrice = (cents: number) => `€${(cents / 100).toFixed(2).replace('.', ',')}`;
+
+  // Helper: resolve option name from menu data
+  const resolveOptionName = (itemId: string, groupId: string, optionId: string): string => {
+    const menuItem = allItems.find((i) => i.id === itemId);
+    if (!menuItem?.options) return optionId;
+    const group = menuItem.options.find((g) => g.id === groupId);
+    if (!group) return optionId;
+    const opt = group.items.find((o) => o.id === optionId);
+    return opt ? opt.name[langKey] : optionId;
+  };
 
   const handleCheckout = async () => {
     setError('');
@@ -35,7 +45,7 @@ export default function CartDrawer({ lang }: { lang: string }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((i) => ({ id: i.id, qty: i.qty })),
+          items: items.map((i) => ({ id: i.id, qty: i.qty, extraCents: i.extraCents })),
           mode,
           address: mode === 'delivery' ? address : undefined,
           lang,
@@ -65,20 +75,28 @@ export default function CartDrawer({ lang }: { lang: string }) {
           {items.length === 0 ? (
             <p className="text-gray-500 text-center py-8">{t('emptyCart')}</p>
           ) : (
-            items.map((ci) => {
+            items.map((ci, idx) => {
               const item = allItems.find((i) => i.id === ci.id);
               if (!item) return null;
+              const unitPrice = item.priceCents + (ci.extraCents ?? 0);
               return (
-                <div key={ci.id} className="flex items-center gap-3 bg-[#060709] rounded-lg p-3">
+                <div key={idx} className="flex items-start gap-3 bg-[#060709] rounded-lg p-3">
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm truncate">{item.name[langKey]}</div>
-                    <div className="text-[#EC6603] text-sm font-bold">{formatPrice(item.priceCents)}</div>
+                    {ci.selectedOptions && ci.selectedOptions.length > 0 && (
+                      <div className="text-gray-500 text-xs mt-0.5 leading-relaxed">
+                        {ci.selectedOptions.map((opt) =>
+                          resolveOptionName(ci.id, opt.groupId, opt.optionId)
+                        ).join(', ')}
+                      </div>
+                    )}
+                    <div className="text-[#EC6603] text-sm font-bold mt-1">{formatPrice(unitPrice)}</div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => decrement(ci.id)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">−</button>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button onClick={() => decrement(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">−</button>
                     <span className="w-5 text-center font-bold">{ci.qty}</span>
-                    <button onClick={() => increment(ci.id)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">+</button>
-                    <button onClick={() => remove(ci.id)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center text-gray-400 hover:text-red-400 hover:bg-[#26282b] transition-colors ml-1">&times;</button>
+                    <button onClick={() => increment(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">+</button>
+                    <button onClick={() => remove(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center text-gray-400 hover:text-red-400 hover:bg-[#26282b] transition-colors ml-1">&times;</button>
                   </div>
                 </div>
               );

@@ -8,7 +8,7 @@ const MIN_ORDER = 1000;
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { items, mode, address, lang } = body as {
-    items: { id: string; qty: number }[];
+    items: { id: string; qty: number; extraCents?: number }[];
     mode: 'delivery' | 'pickup';
     address?: { street: string; number: string; zip: string; city: string };
     lang?: string;
@@ -27,14 +27,15 @@ export async function POST(req: NextRequest) {
   }[] = [];
   let subtotal = 0;
 
-  for (const { id, qty } of items) {
+  for (const { id, qty, extraCents } of items) {
     const item = itemById(id);
     if (!item || qty < 1) return NextResponse.json({ error: `Unknown item: ${id}` }, { status: 400 });
-    subtotal += item.priceCents * qty;
+    const unitAmount = item.priceCents + (extraCents || 0);
+    subtotal += unitAmount * qty;
     lineItems.push({
       price_data: {
         currency: 'eur',
-        unit_amount: item.priceCents,
+        unit_amount: unitAmount,
         product_data: { name: item.name['fr'] },
       },
       quantity: qty,
