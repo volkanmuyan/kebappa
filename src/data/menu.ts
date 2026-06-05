@@ -115,6 +115,9 @@ export const categories: Category[] = [
     title: { fr: 'Frites', nl: 'Frieten', en: 'Fries' },
     items: [
       { id: 'frites', name: { fr: 'Frites fraîches', nl: 'Verse frieten', en: 'Fresh Fries' }, priceCents: 450, category: 'fries', image: '/products/frites.jpeg' },
+      { id: 'frites-epices', name: { fr: 'Frites fraîches épices piquantes', nl: 'Verse frieten pittige kruiden', en: 'Spicy Fresh Fries' }, priceCents: 450, category: 'fries', image: '/products/frites-epices.jpeg' },
+      { id: 'frites-cheddar-jalap', name: { fr: 'Frites cheddar Jalapeños', nl: 'Frieten cheddar Jalapeños', en: 'Cheddar Jalapeño Fries' }, priceCents: 550, category: 'fries', image: '/products/frites-cheddar-jalap.jpeg' },
+      { id: 'frites-cheddar-crispy', name: { fr: 'Frites cheddar Crispy', nl: 'Crispy cheddar frieten', en: 'Crispy Cheddar Fries' }, priceCents: 550, category: 'fries', image: '/products/frites-cheddar-crispy.jpeg' },
     ],
   },
   {
@@ -136,6 +139,18 @@ export const categories: Category[] = [
     title: { fr: 'Boissons', nl: 'Dranken', en: 'Drinks' },
     items: [
       { id: 'ayran', name: { fr: 'Ayran', nl: 'Ayran', en: 'Ayran' }, priceCents: 350, category: 'drinks', image: '/products/ayran.jpeg' },
+      { id: 'pepsi', name: { fr: 'Pepsi', nl: 'Pepsi', en: 'Pepsi' }, priceCents: 290, category: 'drinks', image: '/products/pepsi.jpeg' },
+      { id: 'pepsi-max', name: { fr: 'Pepsi Max', nl: 'Pepsi Max', en: 'Pepsi Max' }, priceCents: 290, category: 'drinks', image: '/products/pepsi-max.jpeg' },
+      { id: '7up', name: { fr: '7 Up', nl: '7 Up', en: '7 Up' }, priceCents: 290, category: 'drinks', image: '/products/7up.jpeg' },
+      { id: 'mirinda', name: { fr: 'Mirinda', nl: 'Mirinda', en: 'Mirinda' }, priceCents: 290, category: 'drinks', image: '/products/mirinda.jpeg' },
+      { id: 'uludag', name: { fr: 'Uludag', nl: 'Uludag', en: 'Uludag' }, priceCents: 290, category: 'drinks', image: '/products/uludag.jpeg' },
+      { id: 'schweppes', name: { fr: 'Schweppes Agrumes', nl: 'Schweppes Citrus', en: 'Schweppes Citrus' }, priceCents: 290, category: 'drinks', image: '/products/schweppes.jpeg' },
+      { id: 'ice-tea', name: { fr: 'Ice Tea', nl: 'Ice Tea', en: 'Ice Tea' }, priceCents: 290, category: 'drinks', image: '/products/ice-tea.jpeg' },
+      { id: 'ice-tea-peach', name: { fr: 'Ice Tea Peach', nl: 'Ice Tea Perzik', en: 'Peach Ice Tea' }, priceCents: 290, category: 'drinks', image: '/products/ice-tea-peach.jpeg' },
+      { id: 'oasis-tropical', name: { fr: 'Oasis Tropical', nl: 'Oasis Tropical', en: 'Oasis Tropical' }, priceCents: 290, category: 'drinks', image: '/products/oasis-tropical.jpeg' },
+      { id: 'oasis-framboise', name: { fr: 'Oasis Framboise', nl: 'Oasis Framboos', en: 'Oasis Raspberry' }, priceCents: 290, category: 'drinks', image: '/products/oasis-framboise.jpeg' },
+      { id: 'oasis-apple', name: { fr: 'Oasis Pomme', nl: 'Oasis Appel', en: 'Oasis Apple' }, priceCents: 290, category: 'drinks', image: '/products/oasis-apple.jpeg' },
+      { id: 'evian', name: { fr: 'Evian 50cl', nl: 'Evian 50cl', en: 'Evian 50cl' }, priceCents: 290, category: 'drinks', image: '/products/evian.jpeg' },
     ],
   },
 ];
