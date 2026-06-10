@@ -23,5 +23,9 @@
   "customizable": "Customizable",
   "optional": "Optional",
   "free": "Free",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "yourDetails": "Your details",
+  "customerName": "Full name",
+  "customerEmail": "Email",
+  "customerPhone": "Phone"
 }

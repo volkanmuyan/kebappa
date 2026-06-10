@@ -23,5 +23,9 @@
   "customizable": "Aanpasbaar",
   "optional": "Optioneel",
   "free": "Gratis",
-  "cancel": "Annuleren"
+  "cancel": "Annuleren",
+  "yourDetails": "Uw gegevens",
+  "customerName": "Volledige naam",
+  "customerEmail": "E-mail",
+  "customerPhone": "Telefoon"
 }

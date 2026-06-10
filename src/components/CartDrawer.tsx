@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations } from 'next-intl';
 import { useCart } from '@/store/cart';
-import { allItems, categories } from '@/data/menu';
+import { allItems } from '@/data/menu';
 import { useState } from 'react';
 
 const DELIVERY_FEE = 250;
@@ -11,7 +11,11 @@ type Lang = 'fr' | 'nl' | 'en';
 
 export default function CartDrawer({ lang }: { lang: string }) {
   const t = useTranslations();
-  const { items, mode, address, isOpen, closeCart, setMode, setAddress, increment, decrement, remove } = useCart();
+  const {
+    items, mode, address, customer, isOpen,
+    closeCart, setMode, setAddress, setCustomer,
+    increment, decrement, remove,
+  } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -25,9 +29,17 @@ export default function CartDrawer({ lang }: { lang: string }) {
   const total = subtotal + (mode === 'delivery' ? DELIVERY_FEE : 0);
   const belowMin = subtotal < MIN_ORDER;
 
+  const deliveryIncomplete =
+    mode === 'delivery' &&
+    (!address.street.trim() || !address.number.trim() || !address.zip.trim() || !address.city.trim());
+
+  const customerIncomplete =
+    !customer.name.trim() || !customer.email.trim() || !customer.phone.trim();
+
+  const canCheckout = !belowMin && !deliveryIncomplete && !customerIncomplete;
+
   const formatPrice = (cents: number) => `€${(cents / 100).toFixed(2).replace('.', ',')}`;
 
-  // Helper: resolve option name from menu data
   const resolveOptionName = (itemId: string, groupId: string, optionId: string): string => {
     const menuItem = allItems.find((i) => i.id === itemId);
     if (!menuItem?.options) return optionId;
@@ -48,6 +60,7 @@ export default function CartDrawer({ lang }: { lang: string }) {
           items: items.map((i) => ({ id: i.id, qty: i.qty, extraCents: i.extraCents })),
           mode,
           address: mode === 'delivery' ? address : undefined,
+          customer,
           lang,
         }),
       });
@@ -96,7 +109,7 @@ export default function CartDrawer({ lang }: { lang: string }) {
                     <button onClick={() => decrement(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">−</button>
                     <span className="w-5 text-center font-bold">{ci.qty}</span>
                     <button onClick={() => increment(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center font-bold hover:bg-[#EC6603] transition-colors">+</button>
-                    <button onClick={() => remove(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center text-gray-400 hover:text-red-400 hover:bg-[#26282b] transition-colors ml-1">&times;</button>
+                    <button onClick={() => remove(ci.id, idx)} className="w-7 h-7 rounded bg-[#26282b] flex items-center justify-center text-gray-400 hover:text-red-400 transition-colors ml-1">&times;</button>
                   </div>
                 </div>
               );
@@ -106,7 +119,7 @@ export default function CartDrawer({ lang }: { lang: string }) {
 
         {items.length > 0 && (
           <div className="p-4 border-t border-[#26282b] space-y-4">
-            {/* Mode selection */}
+            {/* Mode */}
             <div className="flex gap-3">
               {(['delivery', 'pickup'] as const).map((m) => (
                 <label key={m} className="flex items-center gap-2 cursor-pointer">
@@ -116,7 +129,7 @@ export default function CartDrawer({ lang }: { lang: string }) {
               ))}
             </div>
 
-            {/* Address fields */}
+            {/* Delivery address */}
             {mode === 'delivery' && (
               <div className="space-y-2">
                 <div className="text-sm font-medium text-gray-300">{t('deliveryAddress')}</div>
@@ -135,6 +148,31 @@ export default function CartDrawer({ lang }: { lang: string }) {
               </div>
             )}
 
+            {/* Customer info */}
+            <div className="space-y-2">
+              <div className="text-sm font-medium text-gray-300">{t('yourDetails')}</div>
+              <input
+                placeholder={t('customerName')}
+                value={customer.name}
+                onChange={(e) => setCustomer({ name: e.target.value })}
+                className="w-full bg-[#060709] border border-[#26282b] rounded px-2 py-1.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#EC6603]"
+              />
+              <input
+                type="email"
+                placeholder={t('customerEmail')}
+                value={customer.email}
+                onChange={(e) => setCustomer({ email: e.target.value })}
+                className="w-full bg-[#060709] border border-[#26282b] rounded px-2 py-1.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#EC6603]"
+              />
+              <input
+                type="tel"
+                placeholder={t('customerPhone')}
+                value={customer.phone}
+                onChange={(e) => setCustomer({ phone: e.target.value })}
+                className="w-full bg-[#060709] border border-[#26282b] rounded px-2 py-1.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#EC6603]"
+              />
+            </div>
+
             {/* Totals */}
             <div className="space-y-1 text-sm">
               <div className="flex justify-between text-gray-400">
@@ -150,14 +188,12 @@ export default function CartDrawer({ lang }: { lang: string }) {
               </div>
             </div>
 
-            {belowMin && (
-              <p className="text-red-400 text-xs font-medium">{t('minOrderWarning')}</p>
-            )}
+            {belowMin && <p className="text-red-400 text-xs font-medium">{t('minOrderWarning')}</p>}
             {error && <p className="text-red-400 text-xs">{error}</p>}
 
             <button
               onClick={handleCheckout}
-              disabled={belowMin || loading}
+              disabled={!canCheckout || loading}
               className="w-full bg-[#EC6603] hover:bg-[#C9550A] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors"
             >
               {loading ? '...' : t('placeOrder')}
