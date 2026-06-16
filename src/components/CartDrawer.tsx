@@ -2,9 +2,14 @@
 import { useTranslations } from 'next-intl';
 import { useCart } from '@/store/cart';
 import { allItems } from '@/data/menu';
-import { useState } from 'react';
+import { checkDeliveryZone, type Coords } from '@/lib/geo';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
-const DELIVERY_FEE = 250;
+// Leaflet needs the browser; load the map client-side only.
+const DeliveryMap = dynamic(() => import('./DeliveryMap'), { ssr: false });
+
+const DELIVERY_FEE = 500;
 const MIN_ORDER = 1000;
 
 type Lang = 'fr' | 'nl' | 'en';
@@ -18,6 +23,8 @@ export default function CartDrawer({ lang }: { lang: string }) {
   } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [zoneStatus, setZoneStatus] = useState<'idle' | 'checking' | 'ok' | 'outside' | 'notfound'>('idle');
+  const [zoneCoords, setZoneCoords] = useState<Coords | null>(null);
 
   const langKey = lang as Lang;
 
@@ -36,7 +43,34 @@ export default function CartDrawer({ lang }: { lang: string }) {
   const customerIncomplete =
     !customer.name.trim() || !customer.email.trim() || !customer.phone.trim();
 
-  const canCheckout = !belowMin && !deliveryIncomplete && !customerIncomplete;
+  // Verify the delivery address is within the 5 km zone (debounced, cancellable).
+  useEffect(() => {
+    if (mode !== 'delivery' || deliveryIncomplete) {
+      setZoneStatus('idle');
+      setZoneCoords(null);
+      return;
+    }
+    setZoneStatus('checking');
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const zone = await checkDeliveryZone(address, controller.signal);
+        if (controller.signal.aborted) return;
+        setZoneStatus(!zone.found ? 'notfound' : zone.ok ? 'ok' : 'outside');
+        setZoneCoords(zone.coords ?? null);
+      } catch {
+        if (!controller.signal.aborted) setZoneStatus('idle');
+      }
+    }, 700);
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [mode, deliveryIncomplete, address]);
+
+  const zoneBlocked = mode === 'delivery' && zoneStatus !== 'ok';
+
+  const canCheckout = !belowMin && !deliveryIncomplete && !customerIncomplete && !zoneBlocked;
 
   const formatPrice = (cents: number) => `€${(cents / 100).toFixed(2).replace('.', ',')}`;
 
@@ -65,7 +99,15 @@ export default function CartDrawer({ lang }: { lang: string }) {
         }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || 'Error'); setLoading(false); return; }
+      if (!res.ok) {
+        const msg =
+          data.error === 'OUT_OF_ZONE' ? t('outsideZone')
+          : data.error === 'ADDRESS_NOT_FOUND' ? t('addressNotFound')
+          : data.error || 'Error';
+        setError(msg);
+        setLoading(false);
+        return;
+      }
       window.location.href = data.url;
     } catch {
       setError('Network error');
@@ -145,6 +187,10 @@ export default function CartDrawer({ lang }: { lang: string }) {
                   <input placeholder={t('city')} value={address.city} onChange={(e) => setAddress({ city: e.target.value })}
                     className="bg-[#060709] border border-[#26282b] rounded px-2 py-1.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#EC6603]" />
                 </div>
+                {zoneStatus === 'checking' && <p className="text-gray-500 text-xs">{t('checkingZone')}</p>}
+                {zoneStatus === 'outside' && <p className="text-red-400 text-xs font-medium">{t('outsideZone')}</p>}
+                {zoneStatus === 'notfound' && <p className="text-amber-400 text-xs font-medium">{t('addressNotFound')}</p>}
+                <DeliveryMap customer={zoneStatus === 'ok' || zoneStatus === 'outside' ? zoneCoords : null} />
               </div>
             )}
 

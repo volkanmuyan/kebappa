@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { getServiceClient } from '@/lib/supabase-service';
 import { itemById, allItems } from '@/data/menu';
+import { checkDeliveryZone } from '@/lib/geo';
 
-const DELIVERY_FEE = 250;
+const DELIVERY_FEE = 500;
 const MIN_ORDER = 1000;
 
 type ReqBody = {
@@ -26,6 +27,15 @@ export async function POST(req: NextRequest) {
 
   if (mode === 'delivery' && (!address?.street || !address?.number || !address?.zip || !address?.city))
     return NextResponse.json({ error: 'Delivery address required' }, { status: 400 });
+
+  // Enforce the 5 km delivery zone server-side (authoritative — client check is advisory).
+  if (mode === 'delivery' && address) {
+    const zone = await checkDeliveryZone(address);
+    if (!zone.found)
+      return NextResponse.json({ error: 'ADDRESS_NOT_FOUND' }, { status: 400 });
+    if (!zone.ok)
+      return NextResponse.json({ error: 'OUT_OF_ZONE' }, { status: 400 });
+  }
 
   // Validate items and compute totals server-side
   type LineItem = { price_data: { currency: string; unit_amount: number; product_data: { name: string } }; quantity: number };
