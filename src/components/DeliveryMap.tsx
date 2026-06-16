@@ -24,6 +24,9 @@ export default function DeliveryMap({ customer }: { customer?: Coords | null }) 
     });
     mapRef.current = map;
 
+    // Drop Leaflet's default attribution prefix (it carries a Ukrainian flag).
+    map.attributionControl.setPrefix(false);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap',
       maxZoom: 19,
